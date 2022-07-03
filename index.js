@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:500
 app.use(cors())
 app.use(express.json())
 
+app.use(express.static('static'));
+
 mongoose.connect(process.env.DATABASE_URI,
 {useNewUrlParser:true})
 
@@ -103,13 +105,11 @@ app.post('/api/order', async (req, res) => {
 	}
 })
 
-  app.use(express.static( 'client/build' ));
 
 
- app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  });
-
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'static/index.html'));
+});
 
 const PORT = process.env.PORT || 5000;
 
